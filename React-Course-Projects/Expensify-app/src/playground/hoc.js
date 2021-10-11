@@ -1,3 +1,9 @@
+// Higher Order Component (HOC) - A component (HOC) that renders another component
+// Reuse code
+// Render hijacking
+// Prop manipulation
+// Abstract state
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -8,23 +14,23 @@ const Info = (props) => (
   </div>
 );
 
-const withAdminWarning = (WrappedCommponent) => {
- return (props) => (
-  <div> 
-    {props.isAdmin && <p>This is private info. Please don't share!</p>}
-    <WrappedCommponent {...props}/>
-  </div>
- );
+const withAdminWarning = (WrappedComponent) => {
+  return (props) => (
+    <div>
+      {props.isAdmin && <p>This is private info. Please don't share!</p>}
+      <WrappedComponent {...props} />
+    </div>
+  );
 };
 
-const requireAuthentication = (WrappedCommponent) => {
+const requireAuthentication = (WrappedComponent) => {
   return (props) => (
     <div>
       {props.isAuthenticated ? (
-        <WrappedCommponent {...props} />
+        <WrappedComponent {...props} />
       ) : (
-        <p>Please login to see the info.</p>
-      )}
+          <p>Please login to view the info</p>
+        )}
     </div>
   );
 };
@@ -32,6 +38,5 @@ const requireAuthentication = (WrappedCommponent) => {
 const AdminInfo = withAdminWarning(Info);
 const AuthInfo = requireAuthentication(Info);
 
-
-// ReactDOM.render(<AdminInfo isAdmin={false} info="There are the details" />, document.getElementById('app'));
-ReactDOM.render(<AuthInfo isAuthenticated={false} info="There are the details" />, document.getElementById('app'));
+// ReactDOM.render(<AdminInfo isAdmin={true} info="There are the details" />, document.getElementById('app'));
+ReactDOM.render(<AuthInfo isAuthenticated={true} info="There are the details" />, document.getElementById('app'));
